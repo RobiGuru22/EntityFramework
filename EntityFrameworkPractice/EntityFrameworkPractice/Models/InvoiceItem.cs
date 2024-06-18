@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityFrameworkPractice.Models
 {
     public class InvoiceItem
     {
+        [Key]
         public int Id { get; set; }
-        public int InvoiceId { get; set; }
+        [ForeignKey("Invoice")]
+        public int InvoiceFK { get; set; }
         public string EAN { get; set; } = null!;
         public string? BuyerItemCode { get; set; }
         public string? SupplierItemCode { get; set; }

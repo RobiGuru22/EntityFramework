@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityFrameworkPractice.Models
 {
     public class Order
     {
+        [Key]
         public int Id { get; set; }
         public string OrderNumber { get; set; } = null!;
         public DateTime OrderCreationDate { get; set; }
@@ -20,8 +23,10 @@ namespace EntityFrameworkPractice.Models
         public string MessageType { get; set; } = null!;
         public string? Remarks { get; set; }
         public string OrderTransport { get; set; } = null!;
-        public int RetailerId { get; set; }
-        public int SupplierId { get; set; }
+        [ForeignKey("Retailer")]
+        public int RetailerFK { get; set; }
+        [ForeignKey("Supplier")]
+        public int SupplierFK { get; set; }
         public Retailer Retailer { get; set; } = null!;
         public Supplier Supplier { get; set; } = null!;
         public ICollection<OrderItem> OrderItems { get; set; } = null!;

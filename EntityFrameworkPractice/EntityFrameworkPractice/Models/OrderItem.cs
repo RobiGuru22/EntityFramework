@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace EntityFrameworkPractice.Models
 {
     public class OrderItem
     {
+        [Key]
         public int Id { get; set; }
         public string EAN { get; set; } = null!;
         public string? BuyerItemCode { get; set; }
