@@ -24,13 +24,6 @@ public partial class TrackerContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Invoice>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-        });
-
         OnModelCreatingPartial(modelBuilder);
     }
 
