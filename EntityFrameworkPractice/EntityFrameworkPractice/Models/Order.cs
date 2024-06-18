@@ -25,10 +25,7 @@ namespace EntityFrameworkPractice.Models
         public string OrderTransport { get; set; } = null!;
         [ForeignKey("Retailer")]
         public int RetailerFK { get; set; }
-        [ForeignKey("Supplier")]
-        public int SupplierFK { get; set; }
         public Retailer Retailer { get; set; } = null!;
-        public Supplier Supplier { get; set; } = null!;
         public ICollection<OrderItem> OrderItems { get; set; } = null!;
 
     }

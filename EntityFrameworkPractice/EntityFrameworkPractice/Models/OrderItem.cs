@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityFrameworkPractice.Models
 {
@@ -11,6 +12,9 @@ namespace EntityFrameworkPractice.Models
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("Order")]
+        public int OrderFK { get; set; }
+        public Order Order { get; set; } = null!;
         public string EAN { get; set; } = null!;
         public string? BuyerItemCode { get; set; }
         public string? SupplierItemCode { get; set; }
@@ -21,7 +25,5 @@ namespace EntityFrameworkPractice.Models
         public int? OrderUnitPacksize { get; set; }
         public string UnitOfMeasure { get; set; } = null!;
         public double OrderUnitNetPrice { get; set; }
-        public double? OrderUnitPackSize { get; set; }
-
     }
 }

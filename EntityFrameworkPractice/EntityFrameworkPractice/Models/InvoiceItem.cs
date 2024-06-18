@@ -14,6 +14,7 @@ namespace EntityFrameworkPractice.Models
         public int Id { get; set; }
         [ForeignKey("Invoice")]
         public int InvoiceFK { get; set; }
+        public Invoice Invoice { get; set; } = null!;
         public string EAN { get; set; } = null!;
         public string? BuyerItemCode { get; set; }
         public string? SupplierItemCode { get; set; }

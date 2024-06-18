@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkPractice.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20240618110152_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240618125923_InitialCreateRightKeyCombination")]
+    partial class InitialCreateRightKeyCombination
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,10 +64,7 @@ namespace EntityFrameworkPractice.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RetailerFK")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupplierFK")
+                    b.Property<int>("SupplierId")
                         .HasColumnType("int");
 
                     b.Property<double>("TaxAmount")
@@ -80,9 +77,7 @@ namespace EntityFrameworkPractice.Migrations
 
                     b.HasIndex("OrderFK");
 
-                    b.HasIndex("RetailerFK");
-
-                    b.HasIndex("SupplierFK");
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Invoices");
                 });
@@ -197,9 +192,6 @@ namespace EntityFrameworkPractice.Migrations
                     b.Property<int>("RetailerFK")
                         .HasColumnType("int");
 
-                    b.Property<int>("SupplierFK")
-                        .HasColumnType("int");
-
                     b.Property<string>("TargetCurrency")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -207,8 +199,6 @@ namespace EntityFrameworkPractice.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RetailerFK");
-
-                    b.HasIndex("SupplierFK");
 
                     b.ToTable("Orders");
                 });
@@ -243,9 +233,6 @@ namespace EntityFrameworkPractice.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("OrderUnitNetPrice")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("OrderUnitPackSize")
                         .HasColumnType("float");
 
                     b.Property<int?>("OrderUnitPacksize")
@@ -357,23 +344,15 @@ namespace EntityFrameworkPractice.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EntityFrameworkPractice.Models.Retailer", "Retailer")
+                    b.HasOne("EntityFrameworkPractice.Models.Supplier", "SupplierFK")
                         .WithMany()
-                        .HasForeignKey("RetailerFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EntityFrameworkPractice.Models.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierFK")
+                        .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("Retailer");
-
-                    b.Navigation("Supplier");
+                    b.Navigation("SupplierFK");
                 });
 
             modelBuilder.Entity("EntityFrameworkPractice.Models.InvoiceItem", b =>
@@ -391,15 +370,7 @@ namespace EntityFrameworkPractice.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EntityFrameworkPractice.Models.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierFK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Retailer");
-
-                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("EntityFrameworkPractice.Models.OrderItem", b =>

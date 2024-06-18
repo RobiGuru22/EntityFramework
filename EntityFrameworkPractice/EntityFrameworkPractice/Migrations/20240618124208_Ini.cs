@@ -6,11 +6,34 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EntityFrameworkPractice.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Ini : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderCreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderFulfilled = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OrderCurrency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TargetCurrency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExpectedDeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ExpectedDeliveryTime = table.Column<TimeOnly>(type: "time", nullable: true),
+                    OrderType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderTransport = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Retailers",
                 columns: table => new
@@ -53,40 +76,31 @@ namespace EntityFrameworkPractice.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "OrderItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderCreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderFulfilled = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OrderCurrency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TargetCurrency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpectedDeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ExpectedDeliveryTime = table.Column<TimeOnly>(type: "time", nullable: true),
-                    OrderType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderTransport = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RetailerFK = table.Column<int>(type: "int", nullable: false),
-                    SupplierFK = table.Column<int>(type: "int", nullable: false)
+                    EAN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BuyerItemCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SupplierItemCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductGroupCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ItemType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderQuantity = table.Column<int>(type: "int", nullable: false),
+                    OrderUnitPacksize = table.Column<int>(type: "int", nullable: true),
+                    UnitOfMeasure = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderUnitNetPrice = table.Column<double>(type: "float", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Retailers_RetailerFK",
-                        column: x => x.RetailerFK,
-                        principalTable: "Retailers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Suppliers_SupplierFK",
-                        column: x => x.SupplierFK,
-                        principalTable: "Suppliers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -130,35 +144,6 @@ namespace EntityFrameworkPractice.Migrations
                         principalTable: "Suppliers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderItems",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EAN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BuyerItemCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SupplierItemCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductGroupCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ItemDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ItemType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderQuantity = table.Column<int>(type: "int", nullable: false),
-                    OrderUnitPacksize = table.Column<int>(type: "int", nullable: true),
-                    UnitOfMeasure = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderUnitNetPrice = table.Column<double>(type: "float", nullable: false),
-                    OrderUnitPackSize = table.Column<double>(type: "float", nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -217,16 +202,6 @@ namespace EntityFrameworkPractice.Migrations
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_RetailerFK",
-                table: "Orders",
-                column: "RetailerFK");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_SupplierFK",
-                table: "Orders",
-                column: "SupplierFK");
         }
 
         /// <inheritdoc />
