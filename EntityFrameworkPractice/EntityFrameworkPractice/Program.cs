@@ -16,14 +16,14 @@ using EntityFrameworkPractice.Data;
     Country = "HU"
 };*/
 
-using TrackerContext context = new TrackerContext();
+/*using TrackerContext context = new TrackerContext();
 
 var deletable = context.Suppliers.Where(x => x.Name == "Teszt Szup 1").FirstOrDefault();
 
 if(deletable is Supplier)
 {
     Querys.RemoveSupplier(deletable);
-}
+}*/
 
 
 Console.WriteLine("Removal done!");
