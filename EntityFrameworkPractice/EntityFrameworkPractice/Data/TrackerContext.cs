@@ -8,26 +8,14 @@ namespace EntityFrameworkPractice.Data;
 
 public partial class TrackerContext : DbContext
 {
-    public TrackerContext()
-    {
-    }
-
-    public TrackerContext(DbContextOptions<TrackerContext> options)
-        : base(options)
-    {
-    }
-
-    public virtual DbSet<Invoice> Invoices { get; set; }
-
+    public DbSet<Invoice> Invoices { get; set; } = null!;
+    public DbSet<InvoiceItem> InvoiceItems { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<OrderItem> OrderItems { get; set; } = null!;
+    public DbSet<Retailer> Retailers { get; set; } = null!;
+    public DbSet<Supplier> Suppliers { get; set; } = null!;
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(CnnHelper.GetCnnString("MyServer"));
+        optionsBuilder.UseSqlServer(CnnHelper.GetCnnString("MyDB"));
     }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        OnModelCreatingPartial(modelBuilder);
-    }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
