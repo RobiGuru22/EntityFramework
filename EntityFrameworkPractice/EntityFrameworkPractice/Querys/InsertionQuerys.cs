@@ -13,12 +13,22 @@ namespace EntityFrameworkPractice
         public static void InsertSupplier(Supplier supplier)
         {
             using TrackerContext context = new TrackerContext();
+            if (context.Suppliers.Where(x => x.GLN == supplier.GLN).FirstOrDefault() is Supplier)
+            {
+                Console.WriteLine("Nono");
+                return;
+            }
             context.Suppliers.Add(supplier);
             context.SaveChanges();
         }
         public static void InsertRetailer(Retailer retailer)
         {
             using TrackerContext context = new TrackerContext();
+            if(context.Retailers.Where(x => x.GLN == retailer.GLN).FirstOrDefault() is Retailer)
+            {
+                Console.WriteLine("Nono");
+                return;
+            }
             context.Retailers.Add(retailer);
             context.SaveChanges();
         }

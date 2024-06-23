@@ -13,6 +13,11 @@ namespace EntityFrameworkPractice
         public static void RemoveSupplier(Supplier supplier)
         {
             using TrackerContext context = new TrackerContext();
+            if (!(context.Suppliers.Where(x => x.GLN == supplier.GLN).FirstOrDefault() is Supplier))
+            {
+                Console.WriteLine("Nono");
+                return;
+            }
             context.Suppliers.Remove(supplier);
             context.SaveChanges();
         }
@@ -20,6 +25,11 @@ namespace EntityFrameworkPractice
         public static void RemoveRetailer(Retailer retailer)
         {
             using TrackerContext context = new TrackerContext();
+            if (!(context.Retailers.Where(x => x.GLN == retailer.GLN).FirstOrDefault() is Retailer))
+            {
+                Console.WriteLine("Nono");
+                return;
+            }
             context.Retailers.Remove(retailer);
             context.SaveChanges();
         }
