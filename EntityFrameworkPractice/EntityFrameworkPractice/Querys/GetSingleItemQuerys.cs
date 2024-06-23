@@ -20,5 +20,15 @@ namespace EntityFrameworkPractice
             using TrackerContext context = new TrackerContext();
             return context.Suppliers.Where(x => x.GLN == gln).FirstOrDefault();
         }
+        public static Order? GetOrderByNumber(string orderNumber)
+        {
+            using TrackerContext context = new TrackerContext();
+            return context.Orders.Where(x => x.OrderNumber == orderNumber).FirstOrDefault();
+        }
+        public static Invoice? GetInvoiceByNumber(string invoiceNumber)
+        {
+            using TrackerContext context = new TrackerContext();
+            return context.Invoices.Where(x => x.InvoiceNumber == invoiceNumber).FirstOrDefault();
+        }
     }
 }

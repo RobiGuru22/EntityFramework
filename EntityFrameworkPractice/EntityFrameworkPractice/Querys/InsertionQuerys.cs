@@ -13,6 +13,7 @@ namespace EntityFrameworkPractice
         public static void InsertSupplier(Supplier supplier)
         {
             using TrackerContext context = new TrackerContext();
+            
             if (context.Suppliers.Where(x => x.GLN == supplier.GLN).FirstOrDefault() is Supplier)
             {
                 Console.WriteLine("Nono");
@@ -32,16 +33,33 @@ namespace EntityFrameworkPractice
             context.Retailers.Add(retailer);
             context.SaveChanges();
         }
-        public static void InsertInvoice(Invoice invoice)
+        public static void InsertInvoice(Invoice invoice, Supplier baseSupplier, Order referenceOrder)
         {
             using TrackerContext context = new TrackerContext();
+            invoice.SupplierFK = baseSupplier.Id;
+            invoice.OrderFK = referenceOrder.Id;
             context.Invoices.Add(invoice);
             context.SaveChanges();
         }
-        public static void InsertOrder(Order order)
+        public static void InsertOrder(Order order, Retailer baseRetailer)
         {
             using TrackerContext context = new TrackerContext();
+            order.RetailerFK = baseRetailer.Id;
             context.Orders.Add(order);
+            context.SaveChanges();
+        }
+        public static void InsertOrderItem(OrderItem orderItem, Order referenceOrder)
+        {
+            using TrackerContext context = new TrackerContext();
+            orderItem.OrderFK = referenceOrder.Id;
+            context.OrderItems.Add(orderItem);
+            context.SaveChanges();
+        }
+        public static void InsertInvoiceItem(InvoiceItem invoiceItem, Invoice referenceInvoice)
+        {
+            using TrackerContext context = new TrackerContext();
+            invoiceItem.InvoiceFK = referenceInvoice.Id;
+            context.InvoiceItems.Add(invoiceItem);
             context.SaveChanges();
         }
     }
