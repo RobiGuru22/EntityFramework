@@ -52,6 +52,7 @@ namespace EntityFrameworkPractice
         {
             using TrackerContext context = new TrackerContext();
             orderItem.OrderFK = referenceOrder.Id;
+            referenceOrder.OrderItems.Add(orderItem);
             context.OrderItems.Add(orderItem);
             context.SaveChanges();
         }
@@ -59,6 +60,7 @@ namespace EntityFrameworkPractice
         {
             using TrackerContext context = new TrackerContext();
             invoiceItem.InvoiceFK = referenceInvoice.Id;
+            referenceInvoice.InvoiceItems.Add(invoiceItem);
             context.InvoiceItems.Add(invoiceItem);
             context.SaveChanges();
         }

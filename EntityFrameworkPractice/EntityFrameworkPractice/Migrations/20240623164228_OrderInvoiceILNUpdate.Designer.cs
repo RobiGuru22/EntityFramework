@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkPractice.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20240618131331_ini3")]
-    partial class ini3
+    [Migration("20240623164228_OrderInvoiceILNUpdate")]
+    partial class OrderInvoiceILNUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,10 @@ namespace EntityFrameworkPractice.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RetailerILN")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SupplierFK")
@@ -188,6 +192,10 @@ namespace EntityFrameworkPractice.Migrations
 
                     b.Property<int>("RetailerFK")
                         .HasColumnType("int");
+
+                    b.Property<string>("SupplierILN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TargetCurrency")
                         .IsRequired()

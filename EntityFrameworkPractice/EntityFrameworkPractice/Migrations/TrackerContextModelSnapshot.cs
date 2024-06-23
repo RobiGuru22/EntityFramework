@@ -61,6 +61,10 @@ namespace EntityFrameworkPractice.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RetailerILN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SupplierFK")
                         .HasColumnType("int");
 
@@ -185,6 +189,10 @@ namespace EntityFrameworkPractice.Migrations
 
                     b.Property<int>("RetailerFK")
                         .HasColumnType("int");
+
+                    b.Property<string>("SupplierILN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TargetCurrency")
                         .IsRequired()

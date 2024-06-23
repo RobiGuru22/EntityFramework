@@ -5,7 +5,7 @@
 namespace EntityFrameworkPractice.Migrations
 {
     /// <inheritdoc />
-    public partial class ini3 : Migration
+    public partial class initialIncrement : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace EntityFrameworkPractice.Migrations
                 table: "InvoiceItems");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Invoices_Suppliers_SupplierId",
+                name: "FK_Invoices_Retailers_RetailerFK",
                 table: "Invoices");
 
             migrationBuilder.DropForeignKey(
@@ -27,6 +27,10 @@ namespace EntityFrameworkPractice.Migrations
                 table: "OrderItems");
 
             migrationBuilder.DropIndex(
+                name: "IX_Invoices_RetailerFK",
+                table: "Invoices");
+
+            migrationBuilder.DropIndex(
                 name: "IX_InvoiceItems_InvoiceId",
                 table: "InvoiceItems");
 
@@ -35,18 +39,19 @@ namespace EntityFrameworkPractice.Migrations
                 table: "OrderItems");
 
             migrationBuilder.DropColumn(
+                name: "RetailerFK",
+                table: "Invoices");
+
+            migrationBuilder.DropColumn(
                 name: "InvoiceId",
                 table: "InvoiceItems");
 
-            migrationBuilder.RenameColumn(
-                name: "SupplierId",
-                table: "Invoices",
-                newName: "SupplierFK");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Invoices_SupplierId",
-                table: "Invoices",
-                newName: "IX_Invoices_SupplierFK");
+            migrationBuilder.AddColumn<int>(
+                name: "RetailerFK",
+                table: "Orders",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "OrderFK",
@@ -54,6 +59,11 @@ namespace EntityFrameworkPractice.Migrations
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_RetailerFK",
+                table: "Orders",
+                column: "RetailerFK");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderFK",
@@ -74,18 +84,18 @@ namespace EntityFrameworkPractice.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Invoices_Suppliers_SupplierFK",
-                table: "Invoices",
-                column: "SupplierFK",
-                principalTable: "Suppliers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_OrderItems_Orders_OrderFK",
                 table: "OrderItems",
                 column: "OrderFK",
                 principalTable: "Orders",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Orders_Retailers_RetailerFK",
+                table: "Orders",
+                column: "RetailerFK",
+                principalTable: "Retailers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -98,12 +108,16 @@ namespace EntityFrameworkPractice.Migrations
                 table: "InvoiceItems");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Invoices_Suppliers_SupplierFK",
-                table: "Invoices");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_OrderItems_Orders_OrderFK",
                 table: "OrderItems");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Orders_Retailers_RetailerFK",
+                table: "Orders");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Orders_RetailerFK",
+                table: "Orders");
 
             migrationBuilder.DropIndex(
                 name: "IX_OrderItems_OrderFK",
@@ -114,24 +128,25 @@ namespace EntityFrameworkPractice.Migrations
                 table: "InvoiceItems");
 
             migrationBuilder.DropColumn(
+                name: "RetailerFK",
+                table: "Orders");
+
+            migrationBuilder.DropColumn(
                 name: "OrderFK",
                 table: "OrderItems");
-
-            migrationBuilder.RenameColumn(
-                name: "SupplierFK",
-                table: "Invoices",
-                newName: "SupplierId");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Invoices_SupplierFK",
-                table: "Invoices",
-                newName: "IX_Invoices_SupplierId");
 
             migrationBuilder.AddColumn<int>(
                 name: "OrderId",
                 table: "OrderItems",
                 type: "int",
                 nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "RetailerFK",
+                table: "Invoices",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "InvoiceId",
@@ -143,6 +158,11 @@ namespace EntityFrameworkPractice.Migrations
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_RetailerFK",
+                table: "Invoices",
+                column: "RetailerFK");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_InvoiceId",
@@ -157,10 +177,10 @@ namespace EntityFrameworkPractice.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Invoices_Suppliers_SupplierId",
+                name: "FK_Invoices_Retailers_RetailerFK",
                 table: "Invoices",
-                column: "SupplierId",
-                principalTable: "Suppliers",
+                column: "RetailerFK",
+                principalTable: "Retailers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 

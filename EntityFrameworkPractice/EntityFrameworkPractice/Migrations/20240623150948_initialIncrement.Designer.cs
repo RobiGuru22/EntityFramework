@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkPractice.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20240618125923_InitialCreateRightKeyCombination")]
-    partial class InitialCreateRightKeyCombination
+    [Migration("20240623150948_initialIncrement")]
+    partial class initialIncrement
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,7 +64,7 @@ namespace EntityFrameworkPractice.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupplierId")
+                    b.Property<int>("SupplierFK")
                         .HasColumnType("int");
 
                     b.Property<double>("TaxAmount")
@@ -77,7 +77,7 @@ namespace EntityFrameworkPractice.Migrations
 
                     b.HasIndex("OrderFK");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("SupplierFK");
 
                     b.ToTable("Invoices");
                 });
@@ -101,9 +101,6 @@ namespace EntityFrameworkPractice.Migrations
                         .HasColumnType("float");
 
                     b.Property<int>("InvoiceFK")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InvoiceId")
                         .HasColumnType("int");
 
                     b.Property<int>("InvoiceQuantity")
@@ -141,7 +138,7 @@ namespace EntityFrameworkPractice.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex("InvoiceFK");
 
                     b.ToTable("InvoiceItems");
                 });
@@ -226,7 +223,7 @@ namespace EntityFrameworkPractice.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderFK")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderQuantity")
@@ -250,7 +247,7 @@ namespace EntityFrameworkPractice.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderFK");
 
                     b.ToTable("OrderItems");
                 });
@@ -344,22 +341,26 @@ namespace EntityFrameworkPractice.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EntityFrameworkPractice.Models.Supplier", "SupplierFK")
+                    b.HasOne("EntityFrameworkPractice.Models.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
+                        .HasForeignKey("SupplierFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("SupplierFK");
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("EntityFrameworkPractice.Models.InvoiceItem", b =>
                 {
-                    b.HasOne("EntityFrameworkPractice.Models.Invoice", null)
+                    b.HasOne("EntityFrameworkPractice.Models.Invoice", "Invoice")
                         .WithMany("InvoiceItems")
-                        .HasForeignKey("InvoiceId");
+                        .HasForeignKey("InvoiceFK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("EntityFrameworkPractice.Models.Order", b =>
@@ -375,9 +376,13 @@ namespace EntityFrameworkPractice.Migrations
 
             modelBuilder.Entity("EntityFrameworkPractice.Models.OrderItem", b =>
                 {
-                    b.HasOne("EntityFrameworkPractice.Models.Order", null)
+                    b.HasOne("EntityFrameworkPractice.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderFK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("EntityFrameworkPractice.Models.Invoice", b =>

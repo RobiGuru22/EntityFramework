@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace EntityFrameworkPractice.Models
 {
@@ -13,6 +14,7 @@ namespace EntityFrameworkPractice.Models
         [Key]
         public int Id { get; set; }
         public string OrderNumber { get; set; } = null!;
+        public string SupplierILN { get; set; } = null!;
         public DateTime OrderCreationDate { get; set; }
         public DateTime? OrderFulfilled { get; set; }
         public string OrderCurrency { get; set; } = null!;

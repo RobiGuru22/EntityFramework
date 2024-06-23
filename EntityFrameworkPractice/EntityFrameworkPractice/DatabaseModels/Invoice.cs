@@ -11,6 +11,7 @@ public class Invoice
     [Key]
     public int Id { get; set; }
     public string InvoiceNumber { get; set; } = null!;
+    public string RetailerILN { get; set; } = null!;
     public DateTime InvoiceCreationDate { get; set; }
     public DateTime? TransactionDate { get; set; }
     public DateTime? PaymentDate { get; set; }
