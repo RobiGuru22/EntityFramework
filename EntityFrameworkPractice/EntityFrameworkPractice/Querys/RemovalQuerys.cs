@@ -10,27 +10,29 @@ namespace EntityFrameworkPractice
 {
     public class RemovalQuerys
     {
-        public static void RemoveSupplier(Supplier supplier)
+        public static void RemoveSupplier(string checkGLN)
         {
             using TrackerContext context = new TrackerContext();
-            if (!(context.Suppliers.Where(x => x.GLN == supplier.GLN).FirstOrDefault() is Supplier))
+            var removable = context.Suppliers.Where(x => x.GLN == checkGLN).FirstOrDefault();
+            if (!(removable is Supplier))
             {
                 Console.WriteLine("Nono");
                 return;
             }
-            context.Suppliers.Remove(supplier);
+            context.Suppliers.Remove(removable);
             context.SaveChanges();
         }
 
-        public static void RemoveRetailer(Retailer retailer)
+        public static void RemoveRetailer(string checkGLN)
         {
             using TrackerContext context = new TrackerContext();
-            if (!(context.Retailers.Where(x => x.GLN == retailer.GLN).FirstOrDefault() is Retailer))
+            var removable = context.Retailers.Where(x => x.GLN == checkGLN).FirstOrDefault();
+            if (!(removable is Retailer))
             {
                 Console.WriteLine("Nono");
                 return;
             }
-            context.Retailers.Remove(retailer);
+            context.Retailers.Remove(removable);
             context.SaveChanges();
         }
         public static void RemoveInvoice(Invoice invoice)
